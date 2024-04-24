@@ -74,12 +74,14 @@ const List: FC = () => {
         {listError && <div className="text-red-500">{listError}</div>}
       </div>
 
-      <div className="flex justify-between items-center px-5">
+      <div className="flex justify-between items-center px-5 gap-2">
         <ListCheckAll
           tasksList={listFromRedux}
           handleCheckTask={handleCheckTask}
         />
+
         <ListSort tasksList={listFromRedux} setTasksList={setListToShow} />
+
         <ListCloseAll
           tasksList={listToShow}
           handleCloseTask={handleCloseTask}

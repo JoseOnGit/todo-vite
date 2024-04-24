@@ -16,7 +16,10 @@ const ListInput: FC<Props> = ({ handleAddNew }) => {
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      className="flex items-center gap-4"
+    >
       <input
         aria-label="Task description"
         value={taskText}
@@ -29,7 +32,7 @@ const ListInput: FC<Props> = ({ handleAddNew }) => {
         handleClick={handleClick}
         customClasses={"text-3xl font-extrabold leading-normal"}
       />
-    </div>
+    </form>
   );
 };
 

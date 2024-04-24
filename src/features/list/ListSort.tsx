@@ -28,7 +28,7 @@ const ListSort: FC<Props> = ({ tasksList, setTasksList }) => {
   }, [tasksList, showDone, showToDo]);
 
   return (
-    <div className="flex mb-2 gap-2">
+    <div className="flex flex-col md:flex-row mb-2 gap-2">
       <Button
         type="primary"
         label={`All (${tasksList.length})`}

@@ -26,13 +26,13 @@ const Task: FC<Props> = ({ task, handleEdit, handleCheck, handleClose }) => {
     <li className="w-full h-auto h-900 relative flex  overflow-x-hidden first:rounded-t-xl last:rounded-b-xl group">
       {/* White background that slides on hover and show 'action buttons' */}
       <div
-        className={`w-full h-full text-lg absolute bg-white group-hover:bg-gray-50 border-x border-b border-gray-200 transition duration-300 ${slideEffectClass}`}
+        className={`w-full h-full text-lg absolute bg-white group-hover:bg-gray-50 border-x border-b border-gray-200 transition duration-300 ${slideEffectClass} z-20`}
       ></div>
 
       {/* Wrapper for task & checkbox */}
       <div
         title={task.text}
-        className="w-[calc(100%-160px)] h-fill flex flex-row flex-nowrap items-start justify-start gap-6 p-5"
+        className="w-full group-hover:w-[calc(100%-160px)]  md:w-[calc(100%-160px)] h-fill flex flex-row flex-nowrap items-start justify-start gap-6 p-5 z-30"
       >
         <TaskCheckbox task={task} handleCheckTask={handleCheck} />
 
@@ -52,7 +52,7 @@ const Task: FC<Props> = ({ task, handleEdit, handleCheck, handleClose }) => {
 
       {/* Action buttons */}
       {!isEditMode && (
-        <div className="w-40 h-fill flex justify-end">
+        <div className="w-40 h-fill flex justify-end absolute top-0 right-0 bottom-0 z-10">
           <TaskActionButton type="edit" onClick={() => setIsEditMode(true)} />
           <TaskActionButton type="close" onClick={() => handleClose(task.id)} />
         </div>

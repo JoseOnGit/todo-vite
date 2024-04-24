@@ -28,7 +28,7 @@ const ListCloseAll: FC<Props> = ({
       >
         <IconClose colorClass="group-hover:fill-white" />
       </div>
-      <span className="font-medium text-gray-400 peer-hover:text-black">
+      <span className="hidden md:block font-medium text-gray-400 peer-hover:text-black">
         Close All
       </span>
     </div>
