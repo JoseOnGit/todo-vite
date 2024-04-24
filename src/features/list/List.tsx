@@ -26,12 +26,12 @@ const List: FC = () => {
   const listError = useAppSelector(listErrorSelector);
 
   const [listToShow, setListToShow] = useState<TaskType[]>(listFromRedux);
-  console.log("%c⧭ listToShow ", "color: #9c66cc", listToShow);
 
   useEffect(() => {
     if (listStatus !== "loading") {
       dispatch(getAllTasksAsync());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

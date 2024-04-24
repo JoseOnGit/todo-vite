@@ -5,6 +5,13 @@ export interface TaskState {
   id: string;
   text: string;
   completed: boolean;
+  createdDate: number;
+  completedDate?: number;
+}
+
+interface RequestBody {
+  id?: string;
+  text: string;
 }
 
 export interface ListState {
@@ -21,7 +28,7 @@ const initialState: ListState = {
 
 const urlRoot = "http://localhost:8080/tasks";
 
-export const getAllTasksAsync = createAsyncThunk(
+export const getAllTasksAsync = createAsyncThunk<TaskState[]>(
   "tasks/getThemAll",
   async () => {
     try {
@@ -34,7 +41,7 @@ export const getAllTasksAsync = createAsyncThunk(
   }
 );
 
-export const addNewTasksAsync = createAsyncThunk(
+export const addNewTasksAsync = createAsyncThunk<TaskState, RequestBody>(
   "tasks/addNewTask",
   async (task) => {
     try {
@@ -53,7 +60,7 @@ export const addNewTasksAsync = createAsyncThunk(
   }
 );
 
-export const editTasksAsync = createAsyncThunk(
+export const editTasksAsync = createAsyncThunk<TaskState, RequestBody>(
   "tasks/editTask",
   async (task) => {
     try {
@@ -72,7 +79,7 @@ export const editTasksAsync = createAsyncThunk(
   }
 );
 
-export const completeTasksAsync = createAsyncThunk(
+export const completeTasksAsync = createAsyncThunk<TaskState, string>(
   "tasks/completeTask",
   async (id) => {
     try {
@@ -90,8 +97,8 @@ export const completeTasksAsync = createAsyncThunk(
   }
 );
 
-export const incompleteTasksAsync = createAsyncThunk(
-  "tasks/completeTask",
+export const incompleteTasksAsync = createAsyncThunk<TaskState, string>(
+  "tasks/incompleteTask",
   async (id) => {
     try {
       const response = await fetch(`${urlRoot}/${id}/incomplete`, {
@@ -108,7 +115,7 @@ export const incompleteTasksAsync = createAsyncThunk(
   }
 );
 
-export const closeTasksAsync = createAsyncThunk(
+export const closeTasksAsync = createAsyncThunk<null, string>(
   "tasks/closeTask",
   async (id) => {
     try {
@@ -161,7 +168,7 @@ export const listSlice = createSlice({
         state.list = state.list.map((task) => {
           if (task.id === action.payload.id) {
             return {
-              id: task.id,
+              ...task,
               text: action.payload.text,
               completed: task.completed,
             };
@@ -202,6 +209,26 @@ export const listSlice = createSlice({
         });
       })
       .addCase(completeTasksAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || null;
+      })
+
+      .addCase(incompleteTasksAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(incompleteTasksAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.list = state.list.map((task) => {
+          if (task.id === action.payload.id) {
+            return {
+              ...task,
+              completed: action.payload.completed,
+            };
+          }
+          return task;
+        });
+      })
+      .addCase(incompleteTasksAsync.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || null;
       });
