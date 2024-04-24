@@ -34,12 +34,6 @@ const List: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (listStatus !== "loading") {
-      setListToShow(listFromRedux);
-    }
-  }, [listFromRedux, listStatus]);
-
   const handleAddNewTask = (task: string) => {
     dispatch(addNewTasksAsync({ text: task }));
   };
